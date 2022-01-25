@@ -55,13 +55,25 @@ function godel(output) {
 }
 const correct_value = 2*(1 + 3 + 9 + 27 + 81);
 
-function divide(guess, possibleAnwers) {
+function divide(guess, possibleAnswers) {
     var cases = {};
-    for (var answer of possibleAnwers) {
+    for (var answer of possibleAnswers) {
         var n = match(answer, guess);
         if (n === correct_value) continue; // no further work once guessed correctly
         if (cases[n] !== undefined) cases[n]++;
         else cases[n] = 1;
+    }
+    return cases;
+}
+
+// like divide, but returns entries rather than their count
+function partition(guess, possibleAnswers) {
+    var cases = {};
+    for (var answer of possibleAnswers) {
+        var n = match(answer, guess);
+        if (n === correct_value) continue;
+        if (cases[n] !== undefined) cases[n].push(answer);
+        else cases[n] = [answer];
     }
     return cases;
 }
@@ -92,9 +104,7 @@ History of best result:
 From greedy: soare, value at depth 2 is 311768
 Better:      raile, value at depth 2 is 303117
 Even better: roate, value at depth 2 is 301459
-
 */
-
 
 // Try soare (best for greedy approach, to get an initial bound)
 // pickWord is greedy, this is slightly less greedy by considering all first 2 levels
@@ -144,12 +154,103 @@ function pickPair(possibleAnwers){
     return bestGuess;
 }
 
+// Given root, find best 2nd node along each branch based on depth-2 entropy again
+// TODO: Take greedy approach to get a first estimate for best score, so can return early more often
+function pickSubPairs(possibleAnswers, root) {
+    var cases = partition(root, possibleAnswers);
+    var results = {};
+
+    console.log(Object.keys(cases).length);
+  //  console.log(cases);
+    for (const group in cases) {
+        // due to change to 'divide', should no longer get this case
+        if (group === correct_value) continue; // guessed correct, no need for a lower node
+        else {
+            results[group] = pickSubPair(group, cases[group]);
+        }
+        console.log(`Picked word for group ${group}`);
+    }
+
+    return results;
+}
+
+// Key 0 = clips, about to try synch, best so far is clips with score 1331.7848987017092
+// Key 1 = sculk, about to try volae, best so far is sculk with score 183
+// Key 2 = aband, about to try volae, best so far is aband with score 4
+// Key 3 = snool, about to try volae, best so far is snool with score 182
+// Key 4 = croon, about to try volae, best so far is croon with score 269.1894750100962
+// Key 5 = aargh, about to try volae, best so far is aargh with score 3
+// Key 6 = bludy, about to try volae, best so far is bludy with score 367.1894750100962
+// Key 7 = cundy, about to try volae, best so far is cundy with score 26
+// Key 8 = acidy, about to try volae, best so far is acidy with score 6
+// Key 9 - got to lysin (also best)
+
+// Like pickPair, but expects smaller lists due to already being divided by the best root
+function pickSubPair(key, possibleAnswers){
+    
+    let bestGuess = "";
+    let bestScore = Infinity;
+
+    var i = 0; // print guess periodically to allow restarting easily
+    for (const guess of dictionary) {
+        if (++i % 500 == 0) console.log(`Key ${key}, about to try ${guess}, best so far is ${bestGuess} with score ${bestScore}`);
+        
+        var cases = partition(guess, possibleAnswers);
+        var totalEntropy = 0;
+
+        // now does something similar to pickWord for each subcase, but returning the entropy of it
+        for (var subAnswers of Object.values(cases)) {
+            let subBestEntropy = Infinity;
+            for (const secondGuess of dictionary) {
+                const score = entropy(secondGuess, subAnswers);
+                if (score < subBestEntropy) {
+                    subBestEntropy = score;
+                }
+            }
+            totalEntropy += subBestEntropy * subAnswers.length; // weight by probability of this state
+            if (totalEntropy > bestScore) break; // early exit
+        }
+
+        if (totalEntropy < bestScore) {
+            console.log(`New best first choice found: ${guess}, entropy ${totalEntropy}`);
+            bestScore = totalEntropy;
+            bestGuess = guess;
+        }
+    }
+
+    console.log(`Selected ${bestGuess} for key ${key}`);
+    return bestGuess;
+}
+
+
 
 // Given all answers, returns a tree of 2897 nodes, to solve for 2315 possible answers
 // Takes about 20s to build the tree
+// New tree using best root found from depth 2 entropy: 
 function buildTree(possibleAnwers) {
     if (possibleAnwers.length == 1) return { word: possibleAnwers[0] };
     const word = pickWord(possibleAnwers);
+    const node = { word };
+
+    var cases = {};
+    for (var answer of possibleAnwers) {
+        var n = match(answer, word);
+        if (cases[n] !== undefined) cases[n].push(answer);
+        else cases[n] = [answer];
+    }
+
+    for (const group in cases) {
+        // due to change to 'divide', should no longer get this case
+        if (group === correct_value) continue; // guessed correct, no need for a lower node
+        else {
+            node[group] = buildTree(cases[group]);
+        }
+    }
+
+    return node;
+}
+
+function buildTreeGivenRoot(possibleAnwers, word) {
     const node = { word };
 
     var cases = {};
@@ -224,7 +325,24 @@ exports = {
     solve,
 }
 
-pickPair(answers);
+// pickPair(answers);
+// Takes about 20s, returns tree with 2897 nodes, max depth 6, root soare
 // const tree = buildTree(answers);
+// Takes about 10s, returns tree with 2899 nodes, max depth 5, root roate!!
+
+
+
+// const tree = buildTreeGivenRoot(answers, "roate");
 // console.log(`Tree has ${treeSize(tree)} nodes, depth ${treeDepth(tree)}`);
 // solve(tree).then(() => readline.close());
+
+console.log(pickSubPairs(answers, "roate"));
+
+
+
+// knoll
+// roate - guess
+// _O___
+// snool - guess
+// _XX_X
+// knoll - correct in 3 guesses
