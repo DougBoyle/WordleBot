@@ -87,15 +87,23 @@ function pickWord(possibleAnwers) {
     return bestGuess;
 }
 
+/*
+History of best result:
+From greedy: soare, value at depth 2 is 311768
+Better:      raile, value at depth 2 is 303117
+Even better: roate, value at depth 2 is 301459
+
+*/
+
+
 // Try soare (best for greedy approach, to get an initial bound)
 // pickWord is greedy, this is slightly less greedy by considering all first 2 levels
 function pickPair(possibleAnwers){
     // to allow continuing from already known point (will recompute once)
-    const upTo = "hypes"; // place to continue from
+    const upTo = "zooty"; // place to continue from
     
-    let bestGuess = "soare"; // best word found yet
-    // Just above the value found for 'soare', the best from greedy approach
-    let bestScore = 311770; // just above lower bound on score, as the initial value
+    let bestGuess = "roate"; // best word found yet
+    let bestScore = 301460; // just above lower bound on score, as the initial value
 
     var i = 0; // print guess periodically to allow restarting easily
     for (const guess of dictionary) {
