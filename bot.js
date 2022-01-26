@@ -163,6 +163,7 @@ function pickSubPairs(possibleAnswers, root) {
     console.log(Object.keys(cases).length);
   //  console.log(cases);
     for (const group in cases) {
+        if (group < 9) continue;
         // due to change to 'divide', should no longer get this case
         if (group === correct_value) continue; // guessed correct, no need for a lower node
         else {
@@ -174,6 +175,7 @@ function pickSubPairs(possibleAnswers, root) {
     return results;
 }
 
+// TODO: May want to check for 1 vs 2 depth on keys that had integer entropy, implies trivial answer
 // Key 0 = clips, about to try synch, best so far is clips with score 1331.7848987017092
 // Key 1 = sculk, about to try volae, best so far is sculk with score 183
 // Key 2 = aband, about to try volae, best so far is aband with score 4
@@ -183,7 +185,57 @@ function pickSubPairs(possibleAnswers, root) {
 // Key 6 = bludy, about to try volae, best so far is bludy with score 367.1894750100962
 // Key 7 = cundy, about to try volae, best so far is cundy with score 26
 // Key 8 = acidy, about to try volae, best so far is acidy with score 6
-// Key 9 - got to lysin (also best)
+// Selected lysin for key 9
+// Selected carrs for key 10
+// Selected lapin for key 11
+// Selected linos for key 12
+// Selected macon for key 13
+// Selected aband for key 14
+// Selected liman for key 15
+// Selected balms for key 16
+// Selected aahed for key 17
+// Selected chins for key 18
+// Selected dicks for key 19
+// Selected aahed for key 21
+// Selected abaca for key 22
+// Selected acyls for key 24
+// Selected aahed for key 25
+// Selected aahed for key 26
+// Selected snift for key 27
+// Selected scuft for key 28
+// Selected aahed for key 29
+// Selected lupin for key 30
+// Selected shott for key 31
+// Selected mucin for key 33
+// Selected bohos for key 34
+// Selected abacs for key 35
+// Selected clint for key 36
+// Selected alway for key 37
+// Selected aboil for key 39
+// Selected abaca for key 40
+// Selected aahed for key 41
+// Selected aland for key 42
+// Selected knish for key 45
+// Selected crims for key 46
+// Selected abaca for key 51
+// Selected aahed for key 53
+// Selected hinds for key 54
+// Selected beigy for key 55
+// Selected aahed for key 56
+// Selected chins for key 57
+// Selected abaca for key 58
+// Selected humfs for key 60
+// Selected fawny for key 61
+// Selected snipy for key 63
+// Selected abamp for key 64
+// Selected aahed for key 65
+// Selected aahed for key 66
+// Selected aahed for key 70 -- TODO: Work out what's happening here, should at least guess one of the options
+// Selected aahed for key 72
+// Selected aahed for key 73
+// Selected aahed for key 78
+// Selected lenes for key 81
+// Selected feued for key 82
 
 // Like pickPair, but expects smaller lists due to already being divided by the best root
 function pickSubPair(key, possibleAnswers){
