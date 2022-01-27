@@ -163,7 +163,7 @@ function pickSubPairs(possibleAnswers, root) {
     console.log(Object.keys(cases).length);
   //  console.log(cases);
     for (const group in cases) {
-        if (group < 83) continue;
+        if (group < 190) continue;
         // due to change to 'divide', should no longer get this case
         if (group === correct_value) continue; // guessed correct, no need for a lower node
         else {
@@ -176,119 +176,134 @@ function pickSubPairs(possibleAnswers, root) {
 }
 
 // TODO: May want to check for 1 vs 2 depth on keys that had integer entropy, implies trivial answer
-// Key 0 = clips, about to try synch, best so far is clips with score 1331.7848987017092
-// Key 1 = sculk, about to try volae, best so far is sculk with score 183
-// Key 2 = aband, about to try volae, best so far is aband with score 4
-// Key 3 = snool, about to try volae, best so far is snool with score 182
-// Key 4 = croon, about to try volae, best so far is croon with score 269.1894750100962
-// Key 5 = aargh, about to try volae, best so far is aargh with score 3
-// Key 6 = bludy, about to try volae, best so far is bludy with score 367.1894750100962
-// Key 7 = cundy, about to try volae, best so far is cundy with score 26
-// Key 8 = acidy, about to try volae, best so far is acidy with score 6
-// Selected lysin for key 9
-// Selected carrs for key 10
-// Selected lapin for key 11
-// Selected linos for key 12
-// Selected macon for key 13
-// Selected aband for key 14
-// Selected liman for key 15
-// Selected balms for key 16
-// Selected aahed for key 17
-// Selected chins for key 18
-// Selected dicks for key 19
-// Selected aahed for key 21
-// Selected abaca for key 22
-// Selected acyls for key 24
-// Selected aahed for key 25
-// Selected aahed for key 26
-// Selected snift for key 27
-// Selected scuft for key 28
-// Selected aahed for key 29
-// Selected lupin for key 30
-// Selected shott for key 31
-// Selected mucin for key 33
-// Selected bohos for key 34
-// Selected abacs for key 35
-// Selected clint for key 36
-// Selected alway for key 37
-// Selected aboil for key 39
-// Selected abaca for key 40
-// Selected aahed for key 41
-// Selected aland for key 42
-// Selected knish for key 45
-// Selected crims for key 46
-// Selected abaca for key 51
-// Selected aahed for key 53
-// Selected hinds for key 54
-// Selected beigy for key 55
-// Selected aahed for key 56
-// Selected chins for key 57
-// Selected abaca for key 58
-// Selected humfs for key 60
-// Selected fawny for key 61
-// Selected snipy for key 63
-// Selected abamp for key 64
-// Selected aahed for key 65
-// Selected aahed for key 66
-// Selected aahed for key 70 -- TODO: Work out what's happening here, should at least guess one of the options
-// Selected aahed for key 72
-// Selected aahed for key 73
-// Selected aahed for key 78
-// Selected lenes for key 81
-// Selected feued for key 82
-// Selected lupin for key 83
-/*
-Selected pylon for key 84
-Selected erned for key 85
-Selected wynds for key 87
-Selected mawks for key 88
-Selected advew for key 89
-Selected genal for key 90
-Selected gambs for key 91
-Selected calmy for key 92
-Selected abcee for key 93
-Selected aahed for key 94
-Selected bialy for key 99
-Selected bandy for key 100
-Selected acold for key 101
-Selected seeld for key 108
-Selected ernes for key 109
-Selected biccy for key 110
-Selected besot for key 111
-Selected attar for key 112
-Selected aahed for key 113
-Selected milch for key 114
-Selected ablow for key 115
-Selected clept for key 117
-Selected tweel for key 118
-Selected enols for key 126
-Selected aahed for key 127
-Selected aahed for key 128
-Selected plesh for key 135
-Selected aahed for key 136
-Selected aahed for key 138
-Selected aahed for key 144
-Selected aahed for key 145
-Selected aahed for key 153
-Selected nidus for key 162
-Selected piums for key 163
-Selected adsum for key 164
-Selected snick for key 165
-Selected phons for key 166
-Selected gusli for key 168
-Selected bachs for key 169
-Selected aargh for key 170
-Selected mauls for key 171
-Selected aglus for key 172
-Selected aalii for key 173
-Selected aband for key 174
-Selected aahed for key 175
-Selected glisk for key 180
-Selected crags for key 181
-Selected cuish for key 189
-190 up to manos, best is bices so far
-
-*/
+const mapping = {
+  '0': 'clips',
+  '1': 'sculk',
+  '2': 'aband',
+  '3': 'snool',
+  '4': 'croon',
+  '5': 'aargh',
+  '6': 'bludy',
+  '7': 'cundy',
+  '8': 'acidy',
+  '9': 'lysin',
+  '10': 'carrs',
+  '11': 'lapin',
+  '12': 'linos',
+  '13': 'macon',
+  '14': 'aband',
+  '15': 'liman',
+  '16': 'balms',
+  '17': 'aahed',
+  '18': 'chins',
+  '19': 'dicks',
+  '21': 'aahed',
+  '22': 'abaca',
+  '24': 'acyls',
+  '25': 'aahed',
+  '26': 'aahed',
+  '27': 'snift',
+  '28': 'scuft',
+  '29': 'aahed',
+  '30': 'lupin',
+  '31': 'shott',
+  '33': 'mucin',
+  '34': 'bohos',
+  '35': 'abacs',
+  '36': 'clint',
+  '37': 'alway',
+  '39': 'aboil',
+  '40': 'abaca',
+  '41': 'aahed',
+  '42': 'aland',
+  '45': 'knish',
+  '46': 'crims',
+  '51': 'abaca',
+  '53': 'aahed',
+  '54': 'hinds',
+  '55': 'beigy',
+  '56': 'aahed',
+  '57': 'chins',
+  '58': 'abaca',
+  '60': 'humfs',
+  '61': 'fawny',
+  '63': 'snipy',
+  '64': 'abamp',
+  '65': 'aahed',
+  '66': 'aahed',
+  '70': 'aahed', // TODO: Work out what's happening here, should at least guess one of the options
+  '72': 'aahed',
+  '73': 'aahed',
+  '78': 'aahed',
+  '81': 'lenes',
+  '82': 'feued',
+  '83': 'lupin',
+  '84': 'pylon',
+  '85': 'erned',
+  '87': 'wynds',
+  '88': 'mawks',
+  '89': 'advew',
+  '90': 'genal',
+  '91': 'gambs',
+  '92': 'calmy',
+  '93': 'abcee',
+  '94': 'aahed',
+  '99': 'bialy',
+  '100': 'bandy',
+  '101': 'acold',
+  '108': 'seeld',
+  '109': 'ernes',
+  '110': 'biccy',
+  '111': 'besot',
+  '112': 'attar',
+  '113': 'aahed',
+  '114': 'milch',
+  '115': 'ablow',
+  '117': 'clept',
+  '118': 'tweel',
+  '126': 'enols',
+  '127': 'aahed',
+  '128': 'aahed',
+  '135': 'plesh',
+  '136': 'aahed',
+  '138': 'aahed',
+  '144': 'aahed',
+  '145': 'aahed',
+  '153': 'aahed',
+  '162': 'nidus',
+  '163': 'piums',
+  '164': 'adsum',
+  '165': 'snick',
+  '166': 'phons',
+  '168': 'gusli',
+  '169': 'bachs',
+  '170': 'aargh',
+  '171': 'mauls',
+  '172': 'aglus',
+  '173': 'aalii',
+  '174': 'aband',
+  '175': 'aahed',
+  '180': 'glisk',
+  '181': 'crags',
+  '189': 'cuish',
+  '190': 'bices',
+  '192': 'slank',
+  '193': 'alaps',
+  '198': 'abash',
+  '201': 'aahed',
+  '207': 'gleek',
+  '208': 'abacs',
+  '216': 'muils',
+  '217': 'ablow',
+  '219': 'abacs',
+  '220': 'aahed',
+  '223': 'aahed',
+  '224': 'aahed',
+  '225': 'chubs',
+  '234': 'balks',
+  '235': 'abaci',
+  '237': 'aahed'
+};
 
 
 // Like pickPair, but expects smaller lists due to already being divided by the best root
