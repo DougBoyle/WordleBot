@@ -163,7 +163,7 @@ function pickSubPairs(possibleAnswers, root) {
     console.log(Object.keys(cases).length);
   //  console.log(cases);
     for (const group in cases) {
-        if (group < 9) continue;
+        if (group < 83) continue;
         // due to change to 'divide', should no longer get this case
         if (group === correct_value) continue; // guessed correct, no need for a lower node
         else {
@@ -236,6 +236,60 @@ function pickSubPairs(possibleAnswers, root) {
 // Selected aahed for key 78
 // Selected lenes for key 81
 // Selected feued for key 82
+// Selected lupin for key 83
+/*
+Selected pylon for key 84
+Selected erned for key 85
+Selected wynds for key 87
+Selected mawks for key 88
+Selected advew for key 89
+Selected genal for key 90
+Selected gambs for key 91
+Selected calmy for key 92
+Selected abcee for key 93
+Selected aahed for key 94
+Selected bialy for key 99
+Selected bandy for key 100
+Selected acold for key 101
+Selected seeld for key 108
+Selected ernes for key 109
+Selected biccy for key 110
+Selected besot for key 111
+Selected attar for key 112
+Selected aahed for key 113
+Selected milch for key 114
+Selected ablow for key 115
+Selected clept for key 117
+Selected tweel for key 118
+Selected enols for key 126
+Selected aahed for key 127
+Selected aahed for key 128
+Selected plesh for key 135
+Selected aahed for key 136
+Selected aahed for key 138
+Selected aahed for key 144
+Selected aahed for key 145
+Selected aahed for key 153
+Selected nidus for key 162
+Selected piums for key 163
+Selected adsum for key 164
+Selected snick for key 165
+Selected phons for key 166
+Selected gusli for key 168
+Selected bachs for key 169
+Selected aargh for key 170
+Selected mauls for key 171
+Selected aglus for key 172
+Selected aalii for key 173
+Selected aband for key 174
+Selected aahed for key 175
+Selected glisk for key 180
+Selected crags for key 181
+Selected cuish for key 189
+190 up to manos, best is bices so far
+
+*/
+
 
 // Like pickPair, but expects smaller lists due to already being divided by the best root
 function pickSubPair(key, possibleAnswers){
